@@ -30,14 +30,14 @@ class Cell {
 }
 
 const field = [];
-for(let i = 0; i < 100; i++) {
+for(let i = 0; i < height; i++) {
 	field.push([]);
-	for(let j = 0; j < 100; j++) {
+	for(let j = 0; j < width; j++) {
 		field[i][j] = new Cell(j, i);
 	}
 }
 
-let isCirculate = Boolean(getQuery() === undefined || getQuery().circulate === undefined || isNaN(getQuery().circulate) ? false : getQuery().circulate);
+let isCirculate = Boolean(query === undefined || query.circulate === undefined || isNaN(query.circulate) ? false : query.circulate);
 
 field.forEach(function(v, i) {
 	v.forEach(function(w, j) {
@@ -98,6 +98,8 @@ setInterval(function() {
 	field.forEach(function(v, i) {
 		v.forEach(function(w, j) {
 			// w.alive = getStatus(j, i);
+			w.alive = false;
+			w.nextStat = false;
 			if(getStatus(j, i))w.set();
 		});
 	});
@@ -112,17 +114,6 @@ setInterval(function() {
 		});
 	});
 }, 150);
-
-function getQuery() {
-    if(window.location.search === "") return;
-    const variables = window.location.search.split("?")[1].split("&");
-    const obj = {};
-    variables.forEach(function(v, i) {
-        const variable = v.split("=");
-        obj[variable[0]] = Number(variable[1]);
-    });
-    return obj;
-}
 
 function putRandom() {
 	if(getCheckbox())return;

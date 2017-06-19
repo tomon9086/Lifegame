@@ -9,8 +9,11 @@ cellHeight = 7;
 linePixel = 1;
 borderPixel = 2;
 pixelMap = [];
+query = getQuery();
 width = 100;
 height = 100;
+if((!(query === undefined || isNaN(query)) || !(query.width === undefined || isNaN(query.width))) && query.width)width = query.width;
+if((!(query === undefined || isNaN(query)) || !(query.height === undefined || isNaN(query.height))) && query.height)height = query.height;
 
 document.onkeydown = function(e) {
 	if(e.keyCode === 32) {
@@ -166,6 +169,17 @@ function canvasInitialize() {
 // 	console.table(exportMap);
 // 	document.getElementById("exportArea").innerText = JSON.stringify(exportMap);
 // }
+
+function getQuery() {
+    if(window.location.search === "") return;
+    const variables = window.location.search.split("?")[1].split("&");
+    const obj = {};
+    variables.forEach(function(v, i) {
+        const variable = v.split("=");
+        obj[variable[0]] = Number(variable[1]);
+    });
+    return obj;
+}
 
 function getCheckbox() {
 	return isRunning.checked;
