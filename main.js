@@ -37,7 +37,7 @@ for(let i = 0; i < 100; i++) {
 	}
 }
 
-let isCirculate = Boolean(getQuery().circulate === undefined || isNaN(getQuery().circulate) ? false : getQuery().circulate);
+let isCirculate = Boolean(getQuery() === undefined || getQuery().circulate === undefined || isNaN(getQuery().circulate) ? false : getQuery().circulate);
 
 field.forEach(function(v, i) {
 	v.forEach(function(w, j) {
