@@ -12,8 +12,8 @@ pixelMap = [];
 query = getQuery();
 width = 100;
 height = 100;
-if((!(query === undefined || isNaN(query)) || !(query.width === undefined || isNaN(query.width))) && query.width)width = query.width;
-if((!(query === undefined || isNaN(query)) || !(query.height === undefined || isNaN(query.height))) && query.height)height = query.height;
+if(!(query === undefined || query.width === undefined || isNaN(query.width)))if(query.width)width = query.width;
+if(!(query === undefined || query.height === undefined || isNaN(query.height)))if(query.height)height = query.height;
 
 document.onkeydown = function(e) {
 	if(e.keyCode === 32) {
