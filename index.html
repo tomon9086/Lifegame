@@ -6,8 +6,9 @@
 	<link rel="stylesheet" type="text/css" href="./main.css">
 </head>
 <body>
-	<div><input type="checkbox" id="isRunning" />Run! (Press Spacekey to toggle it.)</div>
+	<div><input type="checkbox" id="isRunning" />Run! ( Press Spacekey to toggle it. )</div>
 	<div><a href="./index.html?circulate=1">循環</a> / <a href="./index.html?circulate=0">非循環</a></div>
+	<div><input type="button" class="button" onclick="putRandom();" value="Random (A)" /><input type="button" onclick="killAll();" class="button" value="Delete (Del)" /></div>
 	<div><canvas id="field" /></div>
 	<script type="text/javascript" src="./cvsField.js"></script>
 	<script type="text/javascript" src="./main.js"></script>

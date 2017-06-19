@@ -13,8 +13,19 @@ width = 100;
 height = 100;
 
 document.onkeydown = function(e) {
-	isRunning.checked = !isRunning.checked;
-	return !(e.keyCode == 32);
+	if(e.keyCode === 32) {
+		isRunning.checked = !isRunning.checked;
+		return false;
+	}
+	if(e.keyCode === 65) {
+		putRandom();
+		return false;
+	}
+	if(e.keyCode === 46 || e.keyCode === 68) {
+		killAll();
+		return false;
+	}
+	// console.log(e)
 }
 
 class FieldCell {

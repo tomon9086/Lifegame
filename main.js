@@ -123,3 +123,22 @@ function getQuery() {
     });
     return obj;
 }
+
+function putRandom() {
+	if(getCheckbox())return;
+	killAll();
+	field.forEach(function(v, i) {
+		v.forEach(function(w, j) {
+			if(!(Math.random() * 4 | 0))revive(j, i);
+		});
+	});
+}
+
+function killAll() {
+	if(getCheckbox())return;
+	field.forEach(function(v, i) {
+		v.forEach(function(w, j) {
+			kill(j, i);
+		});
+	});
+}
