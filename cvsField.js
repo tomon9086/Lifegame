@@ -7,6 +7,9 @@ resolution = 1.5;
 cellWidth = 7;
 cellHeight = 7;
 linePixel = 1;
+lineColor = decToRgb(180180180);
+bgColor = decToRgb(255255255);
+cellColor = decToRgb(000000000);
 borderPixel = 2;
 pixelMap = [];
 query = getQuery();
@@ -15,7 +18,13 @@ height = 100;
 delay = 150;
 if(!(query === undefined || query.width === undefined || isNaN(query.width)))if(query.width)width = query.width;
 if(!(query === undefined || query.height === undefined || isNaN(query.height)))if(query.height)height = query.height;
+// if(!(query === undefined || query.lineWidth === undefined || isNaN(query.lineWidth)))if(query.lineWidth >= 0)linePixel = query.lineWidth;
+if(!(query === undefined || query.lineColor === undefined || isNaN(query.lineColor)))if(query.lineColor >= 0 && query.lineColor <= 255255255)lineColor = decToRgb(query.lineColor);
+if(!(query === undefined || query.bgColor === undefined || isNaN(query.bgColor)))if(query.bgColor >= 0 && query.bgColor <= 255255255)bgColor = decToRgb(query.bgColor);
+if(!(query === undefined || query.cellColor === undefined || isNaN(query.cellColor)))if(query.cellColor >= 0 && query.cellColor <= 255255255)cellColor = decToRgb(query.cellColor);
 
+// console.log(decToRgb(query.lineColor))
+console.log(cellColor);
 document.onkeydown = function(e) {
 	if(e.keyCode === 32) {
 		isRunning.checked = !isRunning.checked;
@@ -51,21 +60,21 @@ class FieldCell {
 		if(this.isRegulated)return;
 		this.isSculpted = !this.isSculpted;
 		if(this.isSculpted){
-			this.style = "rgb(0,0,0)";
+			this.style = cellColor;
 		} else {
-			this.style = "rgb(255,255,255)";
+			this.style = bgColor;
 		}
 	}
 
-	regulate() {
-		this.isRegulated = !this.isRegulated;
-		this.isSculpted = false;
-		if(this.isRegulated){
-			this.style = "rgb(200,200,200)";
-		} else {
-			this.style = "rgb(255,255,255)";
-		}
-	}
+	// regulate() {
+	// 	this.isRegulated = !this.isRegulated;
+	// 	this.isSculpted = false;
+	// 	if(this.isRegulated){
+	// 		this.style = "rgb(200,200,200)";
+	// 	} else {
+	// 		this.style = "rgb(255,255,255)";
+	// 	}
+	// }
 
 	update() {
 		this.field.ctx.fillStyle = this.style;
@@ -123,7 +132,7 @@ function fieldGenerator() {
 	canvasInitialize();
 	// セル描画
 	// 小枠
-	ctx.fillStyle = "rgb(180,180,180)";
+	ctx.fillStyle = lineColor;
 	for(let i = 0; i < height; i++) {
 		pixelMap.push([]);
 		for(let j = 0; j < width; j++) {
@@ -131,7 +140,9 @@ function fieldGenerator() {
 			ctx.fillRect(borderPixel - linePixel + (cellWidth + linePixel) * j, borderPixel - linePixel + (cellHeight + linePixel) * i, cellWidth + linePixel * 2, cellHeight + linePixel * 2);
 			// ctx.fillStyle = "rgb(255,0,0)";
 			const coordinate = [linePixel + (cellWidth + linePixel) * j + linePixel, linePixel + (cellHeight + linePixel) * i + linePixel];
-			ctx.clearRect(coordinate[0], coordinate[1], cellWidth, cellHeight);
+			ctx.fillStyle = bgColor;
+			ctx.fillRect(coordinate[0], coordinate[1], cellWidth, cellHeight);
+			ctx.fillStyle = lineColor;
 			pixelMap[i].push(new FieldCell(this, [j, i], coordinate));
 		}
 	}
@@ -143,7 +154,7 @@ function fieldGenerator() {
 	*/
 	const borderWidth = cellWidth * width + linePixel * (width - 1) + borderPixel * 2;
 	const borderHeight = cellHeight * height + linePixel * (height - 1) + borderPixel * 2;
-	ctx.fillStyle = "rgb(180,180,180)";
+	ctx.fillStyle = lineColor;
 	ctx.fillRect(0, 0, borderWidth, borderPixel);
 	ctx.fillRect(borderWidth - borderPixel, 0, borderPixel, borderHeight);
 	ctx.fillRect(0, borderHeight - borderPixel, borderWidth, borderPixel);
@@ -180,6 +191,17 @@ function getQuery() {
         obj[variable[0]] = Number(variable[1]);
     });
     return obj;
+}
+
+function decToRgb(num) {
+	if(typeof num !== "number")return;
+	let str = "" + num;
+	for(let i = 0; str.length < 9; i++) {
+		str = "0" + str;
+	}
+	// if(str.length !== 9)return;
+	const rgb = [str.slice(0, 3), str.slice(3, 6), str.slice(6, 9)];
+	return "rgb(" + rgb.join(",") + ")";
 }
 
 function getCheckbox() {
@@ -234,3 +256,18 @@ const saveGif = {
 		win.focus();
 	}
 }
+
+function record() {
+	const button = document.getElementById("recButton");
+	const loopCheck = document.getElementById("gifLoop");
+	if(!saveGif.recording) {
+		button.setAttribute("recording", "1");
+		saveGif.isLoop = 1;
+		if(loopCheck.checked)saveGif.isLoop = 0;
+		saveGif.start();
+	} else {
+		button.setAttribute("recording", "0");
+		saveGif.end();
+	}
+}
+

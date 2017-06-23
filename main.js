@@ -141,17 +141,3 @@ function killAll(opt) {
 		});
 	});
 }
-
-function record() {
-	const button = document.getElementById("recButton");
-	const loopCheck = document.getElementById("gifLoop");
-	if(!saveGif.recording) {
-		button.setAttribute("recording", "1");
-		saveGif.isLoop = 1;
-		if(loopCheck.checked)saveGif.isLoop = 0;
-		saveGif.start();
-	} else {
-		button.setAttribute("recording", "0");
-		saveGif.end();
-	}
-}
