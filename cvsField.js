@@ -262,7 +262,7 @@ function record() {
 	const loopCheck = document.getElementById("gifLoop");
 	if(!saveGif.recording) {
 		button.setAttribute("recording", "1");
-		saveGif.isLoop = 1;
+		saveGif.isLoop = -1;
 		if(loopCheck.checked)saveGif.isLoop = 0;
 		saveGif.start();
 	} else {
