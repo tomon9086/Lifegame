@@ -8,3 +8,11 @@ body {
 .button {
 	width: 80px;
 }
+
+input[type="button"] {
+	border-radius: 25px 25px 25px 25px;
+	background-color: #FFF;
+}
+.recButton[recording="1"] {
+	background-color: #F55;
+}

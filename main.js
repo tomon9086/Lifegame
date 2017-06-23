@@ -93,8 +93,13 @@ field.forEach(function(v, i) {
 	});
 });
 
+killAll(false);
+killAll(false);
+// killAll();
+
 setInterval(function() {
 	if(!getCheckbox())return;
+	// killAll();
 	field.forEach(function(v, i) {
 		v.forEach(function(w, j) {
 			// w.alive = getStatus(j, i);
@@ -113,7 +118,10 @@ setInterval(function() {
 			w.draw();
 		});
 	});
-}, 150);
+	if(saveGif.recording) {
+		saveGif.encoder.addFrame(saveGif.ctx);
+	}
+}, delay);
 
 function putRandom() {
 	if(getCheckbox())return;
@@ -125,11 +133,25 @@ function putRandom() {
 	});
 }
 
-function killAll() {
+function killAll(opt) {
 	if(getCheckbox())return;
 	field.forEach(function(v, i) {
 		v.forEach(function(w, j) {
-			kill(j, i);
+			kill(j, i, opt);
 		});
 	});
+}
+
+function record() {
+	const button = document.getElementById("recButton");
+	const loopCheck = document.getElementById("gifLoop");
+	if(!saveGif.recording) {
+		button.setAttribute("recording", "1");
+		saveGif.isLoop = 1;
+		if(loopCheck.checked)saveGif.isLoop = 0;
+		saveGif.start();
+	} else {
+		button.setAttribute("recording", "0");
+		saveGif.end();
+	}
 }

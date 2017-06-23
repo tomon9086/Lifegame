@@ -4,12 +4,16 @@
 	<meta charset="utf-8" />
 	<title>LifeGame</title>
 	<link rel="stylesheet" type="text/css" href="./main.css">
+	<script type="text/javascript" src="./GIFEncoder.js"></script>
+	<script type="text/javascript" src="./LZWEncoder.js"></script>
+	<script type="text/javascript" src="./NeuQuant.js"></script>
 </head>
 <body>
 	<div><input type="checkbox" id="isRunning" />Run! ( Press Spacekey to toggle it. )</div>
 	<div><a href="./index.html?circulate=1&width=100&height=100">循環</a> / <a href="./index.html?circulate=0&width=100&height=100">非循環</a></div>
 	<div><input type="button" class="button" onclick="putRandom();" value="Random (A)" /><input type="button" onclick="killAll();" class="button" value="Delete (Del)" /></div>
-	<div><canvas id="field" /></div>
+	<div><input type="button" id="recButton" onclick="record();" class="recButton" recording="0" value="Record GIF" />  --Option : <input type="checkbox" id="gifLoop" checked />Loop</div>
+	<div><canvas id="field"></canvas></div>
 	<script type="text/javascript" src="./cvsField.js"></script>
 	<script type="text/javascript" src="./main.js"></script>
 </body>

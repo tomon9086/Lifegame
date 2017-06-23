@@ -12,6 +12,7 @@ pixelMap = [];
 query = getQuery();
 width = 100;
 height = 100;
+delay = 150;
 if(!(query === undefined || query.width === undefined || isNaN(query.width)))if(query.width)width = query.width;
 if(!(query === undefined || query.height === undefined || isNaN(query.height)))if(query.height)height = query.height;
 
@@ -189,8 +190,8 @@ function getStatus(x, y) {
 	return pixelMap[y][x].isSculpted;
 }
 
-function kill(x, y) {
-	if(!pixelMap[y][x].isSculpted)return;
+function kill(x, y, opt) {
+	if(!pixelMap[y][x].isSculpted && opt === undefined)return;
 	pixelMap[y][x].turn();
 	pixelMap[y][x].update();
 }
@@ -201,4 +202,35 @@ function revive(x, y) {
 	pixelMap[y][x].update();
 }
 
+
 fieldGenerator();
+
+const saveGif = {
+	recording: false,
+	ctx: ctx,
+	encoder: new GIFEncoder(),
+	isLoop: 0,
+	start: function() {
+		this.recording = true;
+		this.encoder.setRepeat(this.isLoop);
+		this.encoder.setDelay(delay);
+		this.encoder.setSize(canvasWidth * resolution|0, canvasHeight * resolution|0);
+		this.encoder.start();
+	},
+	end: function() {
+		this.recording = false;
+		this.encoder.finish();
+		this.bin = new Uint8Array(this.encoder.stream().bin);
+		this.blob = new Blob([this.bin.buffer], {type: "image/gif"});
+		this.url = URL.createObjectURL(this.blob);
+		this.image = new Image();
+		this.image.src = this.url;
+		this.image.onload = function() {
+			URL.revokeObjectURL(this.url);
+		};
+		console.log(this.image, this.url);
+		// document.getElementById("img").src = this.url;
+		const win = window.open(this.url, '_blank');
+		win.focus();
+	}
+}
