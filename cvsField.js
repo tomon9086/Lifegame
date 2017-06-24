@@ -1,5 +1,5 @@
-cvs = document.getElementById("field");
-ctx = document.getElementById("field").getContext("2d");
+cvs = document.getElementById("fieldCanvas");
+ctx = cvs.getContext("2d");
 isRunning = document.getElementById("isRunning");
 canvasWidth = 0;
 canvasHeight = 0;
