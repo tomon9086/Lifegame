@@ -100,6 +100,31 @@ killAll(false);
 setInterval(function() {
 	if(!getCheckbox())return;
 	// killAll();
+	koma();
+}, delay);
+
+document.onkeydown = function(e) {
+	// console.log(e)
+	if(e.keyCode === 32) {
+		isRunning.checked = !isRunning.checked;
+		return false;
+	}
+	if(e.keyCode === 39) {	// right
+		if(getCheckbox())return;
+		koma();
+		return false;
+	}
+	if(e.keyCode === 65) {
+		putRandom();
+		return false;
+	}
+	if(e.keyCode === 46 || e.keyCode === 68) {
+		killAll();
+		return false;
+	}
+}
+
+function koma() {
 	field.forEach(function(v, i) {
 		v.forEach(function(w, j) {
 			// w.alive = getStatus(j, i);
@@ -121,7 +146,7 @@ setInterval(function() {
 	if(saveGif.recording) {
 		saveGif.encoder.addFrame(saveGif.ctx);
 	}
-}, delay);
+}
 
 function putRandom() {
 	if(getCheckbox())return;

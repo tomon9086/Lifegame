@@ -13,8 +13,8 @@ cellColor = decToRgb(000000000);
 borderPixel = 2;
 pixelMap = [];
 query = getQuery();
-width = 100;
-height = 100;
+width = 50;
+height = 50;
 delay = 150;
 if(!(query === undefined || query.width === undefined || isNaN(query.width)))if(query.width)width = query.width;
 if(!(query === undefined || query.height === undefined || isNaN(query.height)))if(query.height)height = query.height;
@@ -25,21 +25,6 @@ if(!(query === undefined || query.cellColor === undefined || isNaN(query.cellCol
 
 // console.log(decToRgb(query.lineColor))
 console.log(cellColor);
-document.onkeydown = function(e) {
-	if(e.keyCode === 32) {
-		isRunning.checked = !isRunning.checked;
-		return false;
-	}
-	if(e.keyCode === 65) {
-		putRandom();
-		return false;
-	}
-	if(e.keyCode === 46 || e.keyCode === 68) {
-		killAll();
-		return false;
-	}
-	// console.log(e)
-}
 
 class FieldCell {
 	constructor(field, cellCoord, startCoord) {
